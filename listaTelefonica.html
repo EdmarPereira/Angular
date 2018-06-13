@@ -1,16 +1,53 @@
 <html ng-app="listaTelefonica">
     <head>
-        <title> Hello World </title>
-        <script src="src/angular-1.6.10/angular.js"></script>
+        <title> Lista Telefonica </title>
+        <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
+        <style>
+            .jumbotron {
+                width: 400px;
+                text-align: center;
+                margin-top: 20px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .table {
+                margin-top: 20px;
+            }
+        
+        </style>
+        <script src="lib/angular-1.6.10/angular.js"></script>
         <script>
             angular.module("listaTelefonica", []);  
-            angular.module("listaTelefonicaCtrl").controller("listaTelefonicaCtrl", function ($scope) {
-            
+            angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope) {
+            $scope.app = "Lista Telefonica"
+            // array with names for definition 
+            $scope.contatos = [
+                {nome: "Edmar", telefone: "996160848"},
+                {nome: "Renata", telefone: "997283579"},
+                {nome: "Joao", telefone: "956165548"}, 
+            ];
             });      
         </script>
     </head>
     <body ng-controller="listaTelefonicaCtrl">
-        
+        <div class="jumbotron">
+            <!-- para mostrar o elemento usa-se dessa forma ou assim {{app}} ou ng-bind="app" -->
+            <h4>{{app}}</h4> 
+            <table class="table table-striped">
+                <tr>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                </tr>
+                <tr ng-repeat="contato in contatos"> <!--loop for the array -->
+                    <td>{{contato.nome}}</td>
+                    <td>{{contato.telefone}}</td>
+                </tr>
+            </table>
+
+            
+
+        </div>
+    
 
     </body>
 </html>
