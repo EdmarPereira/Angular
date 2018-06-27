@@ -15,6 +15,7 @@
         .table {
             margin-top: 20px;
         }
+
         .selecionado {
             background-color: yellow;
         }
@@ -26,20 +27,32 @@
             $scope.app = "Lista Telefonica"
             // array with names for definition 
             $scope.contatos = [
-                { nome: "Edmar", telefone: "996160848" },
-                { nome: "Renata", telefone: "997283579" },
-                { nome: "Joao", telefone: "956165548" }
+                { nome: "Edmar", telefone: "996160848", cor: "red" },
+                { nome: "Renata", telefone: "997283579", cor: "yellow"  },
+                { nome: "Joao", telefone: "956165548", cor: "blue"  }
             ];
             $scope.operadoras = [
-                { nome: "Oi", codigo: 14, categoria: "Celular"},
-                { nome: "Vivo", codigo: 15, categoria: "Celular"},
-                { nome: "Tim", codigo: 41, categoria: "Celular"},
-                { nome: "GVT", codigo: 45, categoria: "Fixo"},
-                { nome: "Embratel", codigo: 27, categoria: "Fixo"}
+                { nome: "Oi", codigo: 14, categoria: "Celular" },
+                { nome: "Vivo", codigo: 15, categoria: "Celular" },
+                { nome: "Tim", codigo: 41, categoria: "Celular" },
+                { nome: "GVT", codigo: 45, categoria: "Fixo" },
+                { nome: "Embratel", codigo: 27, categoria: "Fixo" }
             ];
             $scope.adicionarContato = function (contato) {
                 $scope.contatos.push(contato);
                 delete $scope.contato;  // need to do this because if not, the value change will show at the table
+            };
+
+            $scope.ApagarContatos = function (contatos) {
+               $scope.contatos = contatos.filter(function (contato) {  // filtra e retorna os contatos que nao estao selecionados
+                   if (!contato.selecionado) return contato;
+               });
+            };
+
+            $scope.isContatoSelecionado = function(contatos) { // vai checar em todos os contatos e retornar true se pelo menos 1 tiver selecionado
+               return contatos.some(function (contato) {
+                    return contato.selecionado; 
+                })
             };
         });      
     </script>
@@ -49,20 +62,24 @@
     <div class="jumbotron">
         <!-- para mostrar o elemento usa-se dessa forma ou assim {{app}} ou ng-bind="app" -->
         <h4>{{app}}</h4>
-        {{contato}}
+      
         <table class="table">
             <tr>
                 <th></th>
                 <th>Nome</th>
                 <th>Telefone</th>
                 <th>Operadora</th>
+                <th></th>
             </tr>
             <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
                 <!--loop for the array -->
-                <td><input type="checkbox" ng-model="contato.selecionado"/></td>
+                <td>
+                    <input type="checkbox" ng-model="contato.selecionado" />
+                </td>
                 <td>{{contato.nome}}</td>
                 <td>{{contato.telefone}}</td>
                 <td>{{contato.operadora.nome}}</td>
+                <td><div style="width: 20px; height: 20px;" ng-style="{'background-color': contato.cor}"></div></td>
             </tr>
         </table>
 
@@ -75,8 +92,11 @@
             <option value="">Selecione uma operadora</option>
         </select>
         <button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
+        <button class="btn btn-danger btn-block" ng-click="ApagarContatos(contatos)" ng-disabled="!isContatoSelecionado(contatos)" >Apagar Contatos</button>
 
     </div>
+
+    <div ng-include="'footer.html'"></div>
 
 
 </body>
