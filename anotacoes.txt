@@ -6,3 +6,5 @@ ng-model - pega um elemento da view e define (input, select e text area)
 
 Two-way data binding - alterações na view são refletidas na fonte de dados e atualizações na fonte refletem na view sem a necessidade de manipulação explícita do DOM
 
+Testing Jenkins
+
